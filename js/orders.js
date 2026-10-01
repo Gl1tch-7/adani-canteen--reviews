@@ -1,5 +1,5 @@
 // ============================================================
-//  orders.js — Live Student Order Tracking & Staff Kitchen Dashboard (PIN Protected)
+//  orders.js — Live Student Order Tracking & Staff Kitchen Dashboard (Fixed Auto-Refresh)
 // ============================================================
 
 let previousOrderStatuses = {};
@@ -9,7 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check PIN auth state on handler page
   checkStaffAuth();
 
-  // Listen for storage events (real-time cross-tab synchronization)
+  // Initial render
+  renderStudentOrders();
+
+  if (isStaffAuthenticated()) {
+    renderHandlerDashboard();
+  }
+
+  // Cross-tab real-time storage event listener
   window.addEventListener('storage', (e) => {
     if (e.key === 'canteen_orders') {
       renderStudentOrders();
@@ -20,14 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  renderStudentOrders();
+  // Backup Auto-Refresh polling (every 2 seconds) for file:/// local environment
+  setInterval(() => {
+    renderStudentOrders();
+    if (isStaffAuthenticated()) {
+      renderHandlerDashboard();
+    }
+  }, 2000);
 });
 
 /* ---------- STAFF AUTHENTICATION (handler.html) ---------- */
 function checkStaffAuth() {
   const lockScreen = document.getElementById('lockScreen');
   const dashboard = document.getElementById('protectedDashboard');
-  if (!lockScreen || !dashboard) return; // Not on handler.html
+  if (!lockScreen || !dashboard) return;
 
   if (isStaffAuthenticated()) {
     lockScreen.style.display = 'none';
@@ -51,8 +64,10 @@ function handleStaffLogin(e) {
 
   if (pin === STAFF_PIN) {
     sessionStorage.setItem('canteen_staff_auth', 'true');
+    sessionStorage.setItem('canteen_user_role', 'handler');
     if (err) err.style.display = 'none';
     checkStaffAuth();
+    renderHandlerDashboard();
   } else {
     if (err) err.style.display = 'block';
     if (input) {
@@ -64,6 +79,7 @@ function handleStaffLogin(e) {
 
 function lockDashboard() {
   sessionStorage.removeItem('canteen_staff_auth');
+  sessionStorage.setItem('canteen_user_role', 'student');
   checkStaffAuth();
 }
 
