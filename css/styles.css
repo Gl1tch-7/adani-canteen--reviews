@@ -1369,3 +1369,31 @@ footer {
 
   .scr-mini-ratings { gap: 8px; }
 }
+
+/* Lock Screen Overlay & Card */
+.lock-screen-overlay {
+  position: fixed;
+  inset: 0;
+  background: #121216;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lock-card {
+  background: #202028;
+  border-radius: var(--radius);
+  border: 1.5px solid #333342;
+  padding: 36px 28px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.lock-icon { font-size: 3rem; margin-bottom: 12px; }
+.lock-card h2 { font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: #fff; }
+.lock-card p { font-size: 0.85rem; color: #aaa; }
+

@@ -1,22 +1,71 @@
 // ============================================================
-//  orders.js — Live Student Order Tracking & Canteen Handler Dashboard
+//  orders.js — Live Student Order Tracking & Staff Kitchen Dashboard (PIN Protected)
 // ============================================================
 
 let previousOrderStatuses = {};
+const STAFF_PIN = '1234'; // Default canteen staff PIN
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Check PIN auth state on handler page
+  checkStaffAuth();
+
   // Listen for storage events (real-time cross-tab synchronization)
   window.addEventListener('storage', (e) => {
     if (e.key === 'canteen_orders') {
       renderStudentOrders();
-      renderHandlerDashboard();
+      if (isStaffAuthenticated()) {
+        renderHandlerDashboard();
+      }
       checkStatusNotifications();
     }
   });
 
   renderStudentOrders();
-  renderHandlerDashboard();
 });
+
+/* ---------- STAFF AUTHENTICATION (handler.html) ---------- */
+function checkStaffAuth() {
+  const lockScreen = document.getElementById('lockScreen');
+  const dashboard = document.getElementById('protectedDashboard');
+  if (!lockScreen || !dashboard) return; // Not on handler.html
+
+  if (isStaffAuthenticated()) {
+    lockScreen.style.display = 'none';
+    dashboard.style.display = 'flex';
+    renderHandlerDashboard();
+  } else {
+    lockScreen.style.display = 'flex';
+    dashboard.style.display = 'none';
+  }
+}
+
+function isStaffAuthenticated() {
+  return sessionStorage.getItem('canteen_staff_auth') === 'true';
+}
+
+function handleStaffLogin(e) {
+  e.preventDefault();
+  const input = document.getElementById('staffPasscode');
+  const err = document.getElementById('loginError');
+  const pin = input ? input.value.trim() : '';
+
+  if (pin === STAFF_PIN) {
+    sessionStorage.setItem('canteen_staff_auth', 'true');
+    if (err) err.style.display = 'none';
+    checkStaffAuth();
+  } else {
+    if (err) err.style.display = 'block';
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+  }
+}
+
+function lockDashboard() {
+  sessionStorage.removeItem('canteen_staff_auth');
+  checkStaffAuth();
+}
 
 /* ---------- STUDENT ORDER TRACKING ---------- */
 function renderStudentOrders() {
@@ -144,7 +193,7 @@ function playBellSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
     gain.gain.setValueAtTime(0.3, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 1.2);
     osc.connect(gain);
@@ -152,20 +201,20 @@ function playBellSound() {
     osc.start();
     osc.stop(ctx.currentTime + 1.2);
   } catch (e) {
-    console.log('Audio alert allowed after user interaction');
+    console.log('Audio alert ready');
   }
 }
 
-/* ---------- CANTEEN HANDLER DASHBOARD LOGIC (handler.html) ---------- */
+/* ---------- CANTEEN HANDLER DASHBOARD LOGIC ---------- */
 function renderHandlerDashboard() {
   const grid = document.getElementById('handlerOrdersGrid');
-  if (!grid) return;
+  if (!grid || !isStaffAuthenticated()) return;
 
   const orders = getOrders();
 
   if (orders.length === 0) {
     grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; color: var(--mid);">
+      <div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; color: #888;">
         <div style="font-size: 3rem; margin-bottom: 12px;">👨‍🍳</div>
         <h3>No orders received yet today</h3>
         <p>New orders submitted by students will automatically appear here in real-time!</p>
@@ -174,7 +223,6 @@ function renderHandlerDashboard() {
     return;
   }
 
-  // Filter tab for Handler (All | Pending | Ready | Completed)
   const filter = window.currentHandlerFilter || 'All';
   let filteredOrders = orders;
   if (filter === 'Pending') filteredOrders = orders.filter(o => o.status === 'Placed' || o.status === 'Preparing');
@@ -235,6 +283,7 @@ function renderHandlerDashboard() {
 }
 
 function changeStatus(orderId, newStatus) {
+  if (!isStaffAuthenticated()) return;
   updateOrderStatus(orderId, newStatus);
   renderHandlerDashboard();
   renderStudentOrders();
