@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adani University Canteen Reviews</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <div class="nav-logo">🍽️</div>
+        <div class="nav-brand-text">
+          <span class="uni">Adani University</span>
+          <span class="canteen">Canteen Reviews</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">🏠 Home</a></li>
+        <li><a href="menu.html">📋 Full Menu</a></li>
+        <li><a href="menu.html#must-try">⭐ Must Try</a></li>
+        <li><a href="menu.html" class="btn-nav">Browse Dishes →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-emoji">🍽️</div>
+      <h1>Adani University Canteen — Reviewed!</h1>
+      <p>Honest ratings on <strong>taste</strong>, <strong>quantity</strong> &amp; <strong>value</strong> — by students, for students.</p>
+      <div class="hero-actions">
+        <a href="menu.html" class="btn-primary">📋 Explore Full Menu</a>
+        <a href="#must-try" class="btn-outline">⭐ Must-Try Picks</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-number" id="statTotal">12</span>
+        <span class="stat-label">Dishes Reviewed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="statMustTry">5</span>
+        <span class="stat-label">Must-Try Picks</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="statCategories">6</span>
+        <span class="stat-label">Categories</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="statReviews">0</span>
+        <span class="stat-label">Student Reviews</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MUST-TRY SECTION ===== -->
+  <section class="section must-try-section" id="must-try">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">⭐ <span>Must-Try</span> Dishes</h2>
+          <p class="section-subtitle">Our top picks — don't leave without trying these!</p>
+        </div>
+        <a href="menu.html" class="see-all">See all dishes →</a>
+      </div>
+      <div class="must-try-grid" id="mustTryGrid">
+        <!-- Populated by main.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED REVIEWS ===== -->
+  <section class="section" style="background: var(--white);">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🔥 <span>Top Rated</span> Right Now</h2>
+          <p class="section-subtitle">Highest overall-rated dishes in the canteen</p>
+        </div>
+        <a href="menu.html" class="see-all">See all →</a>
+      </div>
+      <div class="cards-grid" id="featuredGrid">
+        <!-- Populated by main.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ALL DISHES PREVIEW ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🍴 <span>All</span> Dishes</h2>
+          <p class="section-subtitle">Browse the complete canteen menu</p>
+        </div>
+        <a href="menu.html" class="see-all">Full menu →</a>
+      </div>
+      <div class="cards-grid" id="allDishesGrid">
+        <!-- Populated by main.js (first 8) -->
+      </div>
+      <div style="text-align:center; margin-top:32px;">
+        <a href="menu.html" class="btn-primary" style="display:inline-flex;">📋 View Full Menu →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">🍽️</div>
+        <div>
+          <div class="footer-name">Canteen Reviews</div>
+          <div class="footer-sub">Adani University, Ahmedabad</div>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="menu.html">Must Try</a>
+      </div>
+      <div class="footer-copy">
+        Made with ❤️ by AU Students<br/>
+        <span style="font-size:0.75rem;">Reviews are student opinions only.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dish Details & Reviews — Adani University Canteen</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <div class="nav-logo">🍽️</div>
+        <div class="nav-brand-text">
+          <span class="uni">Adani University</span>
+          <span class="canteen">Canteen Reviews</span>
+        </div>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="menu.html">📋 Full Menu</a></li>
+        <li><a href="menu.html#must-try">⭐ Must Try</a></li>
+        <li><a href="menu.html" class="btn-nav">Browse Dishes →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== DISH DETAIL HEADER ===== -->
+  <div class="dish-detail-header">
+    <div class="section-inner">
+      <a href="menu.html" class="back-btn">← Back to Full Menu</a>
+    </div>
+  </div>
+
+  <!-- ===== DISH MAIN CONTENT LAYOUT ===== -->
+  <main class="dish-detail-layout" id="dishDetailLayout">
+    <!-- Populated dynamically by dish.js -->
+  </main>
+
+  <!-- ===== STUDENT REVIEWS & FORM ===== -->
+  <section class="student-reviews-section">
+    <h2>💬 Student Reviews &amp; Ratings</h2>
+    
+    <div id="studentReviewsList" class="student-reviews-list">
+      <!-- Populated dynamically by dish.js -->
+    </div>
+
+    <!-- Review Submission Form -->
+    <div class="review-form-card">
+      <h3>✍️ Submit Your Review</h3>
+      <form id="reviewForm" onsubmit="handleReviewSubmit(event)">
+        <div class="form-group">
+          <label for="studentName" class="form-label">Your Name / Alias *</label>
+          <input type="text" id="studentName" class="form-input" placeholder="e.g. Rahul Sharma (B.Tech CSE)" required />
+        </div>
+
+        <div class="form-group star-input-group">
+          <div class="star-input-row">
+            <span class="star-input-label">Taste:</span>
+            <div class="star-selector" id="starSelectorTaste"></div>
+            <span class="star-val-display" id="valTaste">5★</span>
+          </div>
+
+          <div class="star-input-row">
+            <span class="star-input-label">Quantity:</span>
+            <div class="star-selector" id="starSelectorQuantity"></div>
+            <span class="star-val-display" id="valQuantity">5★</span>
+          </div>
+
+          <div class="star-input-row">
+            <span class="star-input-label">Value:</span>
+            <div class="star-selector" id="starSelectorValue"></div>
+            <span class="star-val-display" id="valValue">5★</span>
+          </div>
+
+          <div class="star-input-row">
+            <span class="star-input-label">Overall:</span>
+            <div class="star-selector" id="starSelectorOverall"></div>
+            <span class="star-val-display" id="valOverall">5★</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+          <label for="reviewComment" class="form-label">Review Comment *</label>
+          <textarea id="reviewComment" class="form-textarea" placeholder="How was the taste? Is the portion enough? Would you recommend it to friends?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">🚀 Submit Review</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Toast -->
+  <div class="toast" id="toast">
+    <span>✅ Your review has been published!</span>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">🍽️</div>
+        <div>
+          <div class="footer-name">Canteen Reviews</div>
+          <div class="footer-sub">Adani University, Ahmedabad</div>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="menu.html">Must Try</a>
+      </div>
+      <div class="footer-copy">
+        Made with ❤️ by AU Students<br/>
+        <span style="font-size:0.75rem;">Reviews are student opinions only.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/dish.js"></script>
+</body>
+</html>
