@@ -1,6 +1,5 @@
 // ============================================================
-//  Adani University Canteen — Data Store
-//  Edit this file to update dish details, prices & reviews
+//  Adani University Canteen — Data Store & Local Storage Helpers
 // ============================================================
 
 const CANTEEN_DATA = [
@@ -257,4 +256,97 @@ function renderStars(rating) {
     }
   }
   return html;
+}
+
+// ============================================================
+//  CART & ORDERS LOCAL STORAGE MANAGEMENT
+// ============================================================
+
+function getCart() {
+  return JSON.parse(localStorage.getItem('canteen_cart') || '[]');
+}
+
+function saveCart(cart) {
+  localStorage.setItem('canteen_cart', JSON.stringify(cart));
+  window.dispatchEvent(new Event('cart_updated'));
+}
+
+function addToCart(dishId, qty = 1) {
+  const dish = getDishById(dishId);
+  if (!dish) return;
+
+  let cart = getCart();
+  const existingIndex = cart.findIndex(item => item.id === dish.id);
+
+  if (existingIndex > -1) {
+    cart[existingIndex].qty += qty;
+  } else {
+    cart.push({
+      id: dish.id,
+      name: dish.name,
+      price: dish.price,
+      image: dish.image,
+      category: dish.category,
+      qty: qty
+    });
+  }
+
+  saveCart(cart);
+}
+
+function updateCartQty(dishId, delta) {
+  let cart = getCart();
+  const item = cart.find(i => i.id === dishId);
+  if (item) {
+    item.qty += delta;
+    if (item.qty <= 0) {
+      cart = cart.filter(i => i.id !== dishId);
+    }
+    saveCart(cart);
+  }
+}
+
+function clearCart() {
+  localStorage.removeItem('canteen_cart');
+  window.dispatchEvent(new Event('cart_updated'));
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem('canteen_orders') || '[]');
+}
+
+function saveOrders(orders) {
+  localStorage.setItem('canteen_orders', JSON.stringify(orders));
+  // Dispatches storage event for cross-tab sync
+}
+
+function createOrder(orderData) {
+  const orders = getOrders();
+  const orderId = 'AU-' + (1000 + orders.length + 1);
+  const newOrder = {
+    id: orderId,
+    timestamp: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+    date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+    studentName: orderData.studentName,
+    phone: orderData.phone || '',
+    items: orderData.items,
+    totalAmount: orderData.totalAmount,
+    paymentMethod: orderData.paymentMethod, // 'online' or 'counter'
+    paymentStatus: orderData.paymentMethod === 'online' ? 'Paid Online ✅' : 'Pay at Counter 💵',
+    status: 'Placed', // Placed -> Preparing -> Ready -> Completed -> Cancelled
+  };
+
+  orders.push(newOrder);
+  saveOrders(orders);
+  clearCart();
+  return newOrder;
+}
+
+function updateOrderStatus(orderId, newStatus) {
+  const orders = getOrders();
+  const order = orders.find(o => o.id === orderId);
+  if (order) {
+    order.status = newStatus;
+    saveOrders(orders);
+  }
 }

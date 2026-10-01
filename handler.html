@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canteen Kitchen & Order Handler — Adani University</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍🍳</text></svg>" />
+</head>
+<body style="background: #1e1e24; color: #fff;">
+
+  <!-- ===== HANDLER NAVBAR ===== -->
+  <nav class="navbar" style="background: #121216; border-bottom: 2px solid var(--primary);">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html" style="color:#fff;">
+        <div class="nav-logo" style="background: linear-gradient(135deg, #FF6B35, #FFD700);">👨‍🍳</div>
+        <div class="nav-brand-text">
+          <span class="uni" style="color:rgba(255,255,255,0.7);">Adani University Canteen</span>
+          <span class="canteen" style="color:var(--primary);">Kitchen Order Handler</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" style="color:#fff;">🎓 Student Website</a>
+        <a href="handler.html" class="btn-nav" style="background:var(--primary);">👨‍🍳 Live Kitchen Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <section style="background: #282830; padding: 24px; text-align: center; border-bottom: 1px solid #383842;">
+    <div class="section-inner">
+      <h1 style="font-size: 1.8rem; font-weight: 800; color: #fff;">👨‍🍳 Live Canteen Order Management</h1>
+      <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-top: 6px;">
+        Real-time incoming orders from students. Click buttons below to update status &amp; notify students!
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== FILTER TABS ===== -->
+  <div style="background: #212128; border-bottom: 1px solid #333; padding: 12px 24px;">
+    <div class="section-inner" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <button class="handler-tab active" onclick="setHandlerFilter('All', this)">All Orders</button>
+      <button class="handler-tab" onclick="setHandlerFilter('Pending', this)">⏳ Pending &amp; Preparing</button>
+      <button class="handler-tab" onclick="setHandlerFilter('Ready', this)">🔔 Ready for Pickup</button>
+      <button class="handler-tab" onclick="setHandlerFilter('Completed', this)">✅ Completed / Past</button>
+    </div>
+  </div>
+
+  <!-- ===== LIVE ORDERS GRID ===== -->
+  <section class="section" style="padding: 40px 24px;">
+    <div class="section-inner">
+      <div class="handler-grid" id="handlerOrdersGrid">
+        <!-- Generated dynamically by orders.js -->
+      </div>
+    </div>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

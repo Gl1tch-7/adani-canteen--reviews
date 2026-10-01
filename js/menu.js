@@ -1,5 +1,5 @@
 // ============================================================
-//  menu.js — Menu Page logic (Search, Category Filters)
+//  menu.js — Menu Page logic (Search, Category Filters, Cart)
 // ============================================================
 
 let currentCategory = 'All';
@@ -44,7 +44,6 @@ function renderCategoryTabs() {
   if (!container) return;
 
   const categories = getCategories();
-  // Insert 'Must Try' into categories right after 'All'
   const allTabs = ['All', 'Must Try', ...categories.filter(c => c !== 'All')];
 
   container.innerHTML = allTabs.map(cat => `
@@ -82,14 +81,12 @@ function renderMenuDishes() {
 
   let filtered = CANTEEN_DATA;
 
-  // Filter by category or Must Try
   if (currentCategory === 'Must Try') {
     filtered = filtered.filter(d => d.mustTry);
   } else if (currentCategory !== 'All') {
     filtered = filtered.filter(d => d.category === currentCategory);
   }
 
-  // Filter by search query
   if (currentQuery) {
     const q = currentQuery.toLowerCase();
     filtered = filtered.filter(d =>
@@ -113,26 +110,34 @@ function renderMenuDishes() {
 function buildDishCard(dish) {
   const r = dish.adminReview;
   return `
-    <div class="dish-card" onclick="goToDish(${dish.id})">
-      <div class="card-img-wrap">
+    <div class="dish-card">
+      <div class="card-img-wrap" onclick="goToDish(${dish.id})">
         <img src="${dish.image}" alt="${dish.name}" loading="lazy"
              onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop'" />
         <span class="card-category-tag">${dish.category}</span>
         ${dish.mustTry ? '<span class="must-try-badge">⭐ Must Try</span>' : ''}
       </div>
       <div class="card-body">
-        <div class="card-top">
+        <div class="card-top" onclick="goToDish(${dish.id})">
           <div class="card-name">${dish.name}</div>
           <span class="price-tag">₹${dish.price}</span>
         </div>
-        <div class="card-stars">
+        <div class="card-stars" onclick="goToDish(${dish.id})">
           <div class="stars-display">${renderStars(r.overall)}</div>
           <span class="rating-number">${r.overall}/5</span>
         </div>
         <span class="availability-pill">🕐 ${dish.availability}</span>
+        <button class="btn-add-cart" onclick="event.stopPropagation(); handleAddToCart(${dish.id})">
+          🛒 Add to Cart
+        </button>
       </div>
     </div>
   `;
+}
+
+function handleAddToCart(id) {
+  addToCart(id, 1);
+  toggleCart();
 }
 
 function goToDish(id) {

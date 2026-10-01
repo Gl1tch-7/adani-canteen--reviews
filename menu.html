@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canteen Menu & Reviews — Adani University</title>
+  <title>Canteen Menu & Online Food Order — Adani University</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
 </head>
@@ -16,15 +16,20 @@
         <div class="nav-logo">🍽️</div>
         <div class="nav-brand-text">
           <span class="uni">Adani University</span>
-          <span class="canteen">Canteen Reviews</span>
+          <span class="canteen">Canteen &amp; Orders</span>
         </div>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">🏠 Home</a></li>
-        <li><a href="menu.html" class="active">📋 Full Menu</a></li>
-        <li><a href="menu.html#must-try">⭐ Must Try</a></li>
-        <li><a href="menu.html" class="btn-nav">Browse Dishes →</a></li>
+        <li><a href="menu.html" class="active">📋 Menu &amp; Order</a></li>
+        <li><a href="index.html#my-orders">📦 Track Orders</a></li>
+        <li><a href="handler.html" class="mode-switch-btn">👨‍🍳 Kitchen View</a></li>
+        <li>
+          <button class="btn-nav-cart" onclick="toggleCart()">
+            🛒 Cart <span class="cart-count-badge" style="display:none;">0</span>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -32,8 +37,8 @@
   <!-- ===== MENU HEADER & SEARCH ===== -->
   <section class="menu-page-header">
     <div class="section-inner">
-      <h1>📋 Canteen Menu & Reviews</h1>
-      <p>Search dishes, filter by category, or find our top must-try recommendations.</p>
+      <h1>📋 Canteen Menu &amp; Online Order</h1>
+      <p>Search dishes, read student reviews, and add items directly to your cart to order!</p>
       
       <div class="search-wrap">
         <input type="text" id="searchInput" class="search-input" placeholder="Search for samosa, dosa, chai..." />
@@ -70,23 +75,24 @@
       <div class="footer-brand">
         <div class="footer-logo">🍽️</div>
         <div>
-          <div class="footer-name">Canteen Reviews</div>
+          <div class="footer-name">Canteen Reviews &amp; Ordering</div>
           <div class="footer-sub">Adani University, Ahmedabad</div>
         </div>
       </div>
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="menu.html">Menu</a>
-        <a href="menu.html">Must Try</a>
+        <a href="handler.html">Kitchen Dashboard</a>
       </div>
       <div class="footer-copy">
         Made with ❤️ by AU Students<br/>
-        <span style="font-size:0.75rem;">Reviews are student opinions only.</span>
+        <span style="font-size:0.75rem;">Fast Online Food Pickup System</span>
       </div>
     </div>
   </footer>
 
   <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/menu.js"></script>
 </body>
 </html>

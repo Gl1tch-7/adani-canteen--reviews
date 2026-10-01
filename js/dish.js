@@ -8,7 +8,6 @@ const userRatings = { taste: 5, quantity: 5, value: 5, overall: 5 };
 document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
 
-  // Get dish ID from URL params (e.g. dish.html?id=1)
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get('id');
 
@@ -49,10 +48,14 @@ function renderDishDetail() {
   const r = currentDish.adminReview;
 
   layout.innerHTML = `
-    <!-- Left Column: Dish Image -->
+    <!-- Left Column: Dish Image & Order Button -->
     <div>
       <img class="dish-main-img" src="${currentDish.image}" alt="${currentDish.name}"
            onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop'" />
+      
+      <button class="btn-primary" style="width:100%; margin-top:16px; justify-content:center;" onclick="handleAddToCart(${currentDish.id})">
+        🛒 Add ${currentDish.name} to Cart (₹${currentDish.price})
+      </button>
     </div>
 
     <!-- Right Column: Meta & Admin Review -->
@@ -128,6 +131,11 @@ function renderDishDetail() {
   `;
 }
 
+function handleAddToCart(id) {
+  addToCart(id, 1);
+  toggleCart();
+}
+
 /* ---------- Render Interactive Star Rating Selectors ---------- */
 function initStarSelectors() {
   const fields = ['Taste', 'Quantity', 'Value', 'Overall'];
@@ -143,7 +151,6 @@ function initStarSelectors() {
     }
     container.innerHTML = starsHtml;
 
-    // Attach click events
     container.querySelectorAll('.star-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const val = parseInt(e.target.getAttribute('data-val'));
@@ -216,7 +223,7 @@ function renderStudentReviews() {
         </div>
       </div>
     `;
-  }).reverse().join(''); // Show latest review first
+  }).reverse().join('');
 }
 
 /* ---------- Handle Form Submission ---------- */
@@ -242,13 +249,11 @@ function handleReviewSubmit(e) {
     date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
   };
 
-  // Save to localStorage
   const key = `reviews_dish_${currentDish.id}`;
   const existing = JSON.parse(localStorage.getItem(key) || '[]');
   existing.push(newReview);
   localStorage.setItem(key, JSON.stringify(existing));
 
-  // Reset form
   nameInput.value = '';
   commentInput.value = '';
   ['Taste', 'Quantity', 'Value', 'Overall'].forEach(f => {
@@ -256,10 +261,7 @@ function handleReviewSubmit(e) {
     updateStarUI(f, 5);
   });
 
-  // Show Toast
   showToast('✅ Your review has been published!');
-
-  // Re-render student reviews list
   renderStudentReviews();
 }
 
